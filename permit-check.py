@@ -8,11 +8,12 @@ from email.message import EmailMessage
 #nastav veci pro email
 
 port = 465  # For SSL
-smtp_server = "smtp.seznam.cz"
-end_date = input("Napiš datum od kterého už nebudu hledat. \nNejspíše 2023-07-01 (dodrž formát), ale můžeš použít 2023-07-02 nebo vyšší pro testovací účely:")
-sender_email = "hyneknahorach@seznam.cz"  # Enter your address
-receiver_email = "jakub.venglar@seznam.cz"  # Enter receiver address
+smtp_server = input("smtp server, např. smtp.seznam.cz:")
+sender_email = input("Z jakého emailu to budeme posílat:")  
+receiver_email = input("A kam:") 
 password = getpass.getpass("Napiš heslo a zmáčkni enter: ")
+end_date = input("Napiš datum od kterého už nebudu hledat. \nNejspíše 2023-07-01 (dodrž formát), ale můžeš použít 2023-07-02 nebo vyšší pro testovací účely:")
+
 
 
 #make sure working directory is set the same as file directory
@@ -79,7 +80,7 @@ while True:
             except Exception as e:
                 print('Něco se nepovedlo a email jsem neodeslal. Jsi připojen k internetu?')
                 print(e)
-                
+
     t = time.localtime()
     current_time = time.strftime("%H:%M:%S", t)
     print('Kontrola ukončena:')
