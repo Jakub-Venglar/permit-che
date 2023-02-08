@@ -1,6 +1,6 @@
 #! python3
 
-import requests, re, time, getpass
+import requests, re, time, getpass, time
 
 import smtplib, ssl
 from email.message import EmailMessage
@@ -79,6 +79,11 @@ while True:
             except Exception as e:
                 print('Něco se nepovedlo a email jsem neodeslal. Jsi připojen k internetu?')
                 print(e)
+                
+    t = time.localtime()
+    current_time = time.strftime("%H:%M:%S", t)
+    print('Kontrola ukončena:')
+    print(current_time)
     print('Čekám minutku na novou kontrolu')
     time.sleep(60) # pockame si
 
