@@ -1,6 +1,6 @@
 #! python3
 
-import requests, re, time
+import requests, re, time, getpass
 
 import smtplib, ssl
 from email.message import EmailMessage
@@ -12,7 +12,7 @@ smtp_server = "smtp.seznam.cz"
 end_date = input("Napiš datum od kterého už nebudu hledat. \nNejspíše 2023-07-01 (dodrž formát), ale můžeš použít 2023-07-02 nebo vyšší pro testovací účely:")
 sender_email = "hyneknahorach@seznam.cz"  # Enter your address
 receiver_email = "jakub.venglar@seznam.cz"  # Enter receiver address
-password = input("Napiš heslo a zmáčkni enter: ")
+password = getpass.getpass("Napiš heslo a zmáčkni enter: ")
 
 
 #make sure working directory is set the same as file directory
@@ -79,7 +79,7 @@ while True:
             except Exception as e:
                 print('Něco se nepovedlo a email jsem neodeslal. Jsi připojen k internetu?')
                 print(e)
-
+    print('Čekám minutku na novou kontrolu')
     time.sleep(60) # pockame si
 
 
