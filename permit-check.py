@@ -1,21 +1,23 @@
 #! python3
 
-import requests, re, time, getpass, time
+import requests, re, time, getpass, time, os
 
 import smtplib, ssl
 from email.message import EmailMessage
 
 #nastav veci pro email
 
-port = 465  # For SSL
-#smtp_server = input("smtp server, např. smtp.seznam.cz:")
-smtp_server = 'smtp.seznam.cz'
-sender_email = input("Z jakého emailu to budeme posílat:")  
-receiver_email = input("A kam:") 
-password = getpass.getpass("Napiš heslo a zmáčkni enter: ")
-end_date = input("Napiš datum od kterého už nebudu hledat. \nNejspíše 2023-05-31 (dodrž formát), ale můžeš použít 2023-07-01 nebo vyšší pro testovací účely:")
+#port = 465  # For SSL
+##smtp_server = input("smtp server, např. smtp.seznam.cz:")
+#smtp_server = 'smtp.seznam.cz'
+#sender_email = input("Z jakého emailu to budeme posílat:")  
+#receiver_email = input("A kam:") 
+#password = getpass.getpass("Napiš heslo a zmáčkni enter: ")
+#end_date = input("Napiš datum od kterého už nebudu hledat. \nNejspíše 2023-05-31 (dodrž formát), ale můžeš použít 2023-07-01 nebo vyšší pro testovací účely:")
 
 #make sure working directory is set the same as file directory
+
+print(os.getcwd())
 
 #stahni stranku
 
