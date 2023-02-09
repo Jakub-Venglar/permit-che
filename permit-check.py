@@ -8,13 +8,12 @@ from email.message import EmailMessage
 #nastav veci pro email
 
 port = 465  # For SSL
-smtp_server = input("smtp server, např. smtp.seznam.cz:")
+#smtp_server = input("smtp server, např. smtp.seznam.cz:")
+smtp_server = 'smtp.seznam.cz'
 sender_email = input("Z jakého emailu to budeme posílat:")  
 receiver_email = input("A kam:") 
 password = getpass.getpass("Napiš heslo a zmáčkni enter: ")
-end_date = input("Napiš datum od kterého už nebudu hledat. \nNejspíše 2023-07-01 (dodrž formát), ale můžeš použít 2023-07-02 nebo vyšší pro testovací účely:")
-
-
+end_date = input("Napiš datum od kterého už nebudu hledat. \nNejspíše 2023-05-31 (dodrž formát), ale můžeš použít 2023-07-01 nebo vyšší pro testovací účely:")
 
 #make sure working directory is set the same as file directory
 
@@ -34,9 +33,6 @@ dateList = eval(result.group(1))
 while True:
 
     for item in dateList:
-
-        if item['start_date'] == '2023-07-02':
-            break # tohle datum uz nas nezajima
 
         if int(item['num']) < 50:
             print('VOLNO')
@@ -80,6 +76,9 @@ while True:
             except Exception as e:
                 print('Něco se nepovedlo a email jsem neodeslal. Jsi připojen k internetu?')
                 print(e)
+        
+        if item['start_date'] == end_date:
+            break # po kontrole tohoto data skoncime
 
     t = time.localtime()
     current_time = time.strftime("%H:%M:%S", t)
