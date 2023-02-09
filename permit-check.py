@@ -1,10 +1,8 @@
 #! python3
 
-import requests, re, time, getpass, time, os, json, datetime
-
+import requests, re, time, getpass, time, json, datetime
 import smtplib, ssl
 from email.message import EmailMessage
-
 
 port = 465  # For SSL
 
@@ -14,6 +12,8 @@ try:
     with open('data.json', 'r', encoding='utf-8') as file:
         data =  json.loads(file.read())
 
+#zeptej se na vse a uloz to
+
 except FileNotFoundError:
     print('Zeptám se tě na pár úvodních nastavení. Ta se uloží do souboru "data.json". Pokud bys je chtěl změnit, uprav je v soboru nebo ho smaž a spusť znovu program.')
     smtp_server = input("smtp server, např. smtp.seznam.cz:")
@@ -21,28 +21,28 @@ except FileNotFoundError:
     receiver_email = input("A kam:") 
     initial_date = input("Napiš první datum, které mám otestovat. \nNapříklad 2023-04-01 (dodrž formát):")
     end_date = input("Napiš poslední datum, které mám otestovat. \nNapříklad 2023-05-31 (dodrž formát), ale můžeš použít 2023-07-01 nebo vyšší pro testovací účely:")
+    sleeping_time = input("Jak často mám kontrolovat dostupnost? V sekundách:") 
 
-    data = {'smtp_server':smtp_server,'sender_email':sender_email,'receiver_email':receiver_email,'initial_date':initial_date,'end_date':end_date}
+    data = {'smtp_server':smtp_server,'sender_email':sender_email,'receiver_email':receiver_email,'initial_date':initial_date,'end_date':end_date, 'sleeping_time': sleeping_time}
 
     with open('data.json', 'w', encoding='utf-8') as file:
         json.dump(data, file, indent = 4) 
-
+    
+    print('Nastavení uloženo. Na heslo se ale budu ptát vždycky ;)')
 
 password = getpass.getpass("Napiš heslo k ODESÍLACÍMU emailu a zmáčkni enter: ")
 
-#make sure working directory is set the same as file directory
+# konvertuj data strings na object abychom ho mohli porovnat
 
-
-
-
-# hlavni smycka
-
-def convert_date(self, string):
+def convert_date(string):
     dateobj = datetime.datetime.strptime(string, '%Y-%m-%d')
 
     return dateobj
 
+# hlavni smycka
+
 while True:
+
     #stahni stranku
 
     page = requests.get('https://portal.permit.pcta.org/availability/mexican-border.php', headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
@@ -65,7 +65,7 @@ while True:
                 print(item['start_date'])
 
 
-                # sestav a odesli zpravu - musi byt v loop, pokud by bylo vice mist (jeste lepe - )
+                # sestav a odesli zpravu
 
                 date = item['start_date']
                 spots = 50 - int(item['num'])
@@ -103,14 +103,15 @@ while True:
                     print('Něco se nepovedlo a email jsem neodeslal. Jsi připojen k internetu?')
                     print(e)
         
-        if item['start_date'] == end_date:
+        if item['start_date'] == data['end_date']:
             break # po kontrole tohoto data skoncime
 
     t = time.localtime()
     current_time = time.strftime("%H:%M:%S", t)
     print('Kontrola ukončena:')
     print(current_time)
-    print('Čekám minutku na novou kontrolu')
-    time.sleep(60) # pockame si
+    seconds = data['sleeping_time']
+    print(f'Čekám {seconds}s na novou kontrolu')
+    time.sleep(int(seconds)) # pockame si
 
 
